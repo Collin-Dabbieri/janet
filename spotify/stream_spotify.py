@@ -4,6 +4,7 @@ import pprint
 from spotify_secrets import client_id
 from spotify_secrets import client_secret
 
+genre='classical'
 artist='The Beatles'
 song='Here Comes The Sun'
 album='Sleep Through The Static'
@@ -69,10 +70,44 @@ def play_playlist(playlist):
 	uris=[track['track']['uri'] for track in tracks]
 	sp.start_playback(uris=uris)
 
+def play_genre(genre):
+	'''
+	streams a genre
+	'''
+	#available_genres=sp.recommendation_genre_seeds()
+	#print(available_genres)
+	recommendations=sp.recommendations(seed_genres=[genre])['tracks']
+	uris=[i['uri'] for i in recommendations]
+	sp.start_playback(uris=uris)
+
+def recommend_artist(artist):
+	'''
+	streams songs similar to an artist
+	'''
+	results=sp.search(q='artist:' + artist, type='artist')
+	# artist uri
+	artist_uri=results['artists']['items'][0]['uri']
+	recommendations=sp.recommendations(seed_artists=[artist_uri])['tracks']
+	uris=[i['uri'] for i in recommendations]
+	sp.start_playback(uris=uris)
+
+def recommend_song(song):
+	'''
+	streams songs similar to a song
+	'''
+	result=sp.search(q='track:'+song,type='track')
+	song_uri=result['tracks']['items'][0]['uri']
+	recommendations=sp.recommendations(seed_tracks=[song_uri])['tracks']
+	uris=[i['uri'] for i in recommendations]
+	sp.start_playback(uris=uris)
+
 if __name__=='__main__':
 
 	#play_artist(artist)
 	#play_song(song)
 	#play_album(album)
 	#play_top_tracks(term)
-	play_playlist(playlist)
+	#play_playlist(playlist)
+	#play_genre(genre)
+	#recommend_artist(artist)
+	recommend_song(song)
