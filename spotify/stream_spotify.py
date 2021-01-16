@@ -1,8 +1,8 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import pprint
-from secrets import client_id
-from secrets import client_secret
+from spotify_secrets import client_id
+from spotify_secrets import client_secret
 
 artist='The Beatles'
 song='Here Comes The Sun'
